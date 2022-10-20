@@ -1,0 +1,19 @@
+{
+    "name": "lt-migris-slots-check-bot",
+    "version": "1.0.0",
+    "description": "Bot for checking the availability of slots to visit in Lithuania MIGRIS",
+    "main": "bot.js",
+    "scripts": {
+        "bot": "wdio run wdio.conf.js"
+    },
+    "author": "Kirill Bulyshkin",
+    "license": "MIT",
+    "devDependencies": {
+        "@wdio/cli": "^7.25.2",
+        "@wdio/local-runner": "^7.25.2",
+        "@wdio/mocha-framework": "^7.25.2",
+        "@wdio/spec-reporter": "^7.25.1",
+        "chromedriver": "^106.0.1",
+        "wdio-chromedriver-service": "^8.0.0"
+    }
+}
