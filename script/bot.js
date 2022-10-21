@@ -1,19 +1,6 @@
 const { CONFIGS } = require("../configs/configs");
 const { locators } = require("../locators/locators");
-
-async function datesAreBooked() {
-    if (await $$(locators.freeDates).length === 0 && await $$(locators.nonFreeDates).length > 28) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-async function setTimeout() {
-    return browser.executeAsync(function(done){
-        setTimeout(done, 2000);
-    });
-}
+const { setTimeout, datesAreBooked, notifyViaEmail } = require("../functions/functions");
 
 describe('Checking MIGRIS free slots for registration', () => {
     it('Сheck that a free date for registration exists ', async () => {
@@ -30,17 +17,19 @@ describe('Checking MIGRIS free slots for registration', () => {
 
         await setTimeout();
 
-        for (let i = 0; i < CONFIGS.NUMBER_OF_RETRIES; i++) {
+        for (let i = 1; i < CONFIGS.NUMBER_OF_MONTH_TO_CHECK; i++) {
             $(locators.rightArrowButton).click();
             await setTimeout();
             if(await datesAreBooked()) {
                 console.log('Sorry, there are no available dates for registration');
             } else {
                 console.log('Hell Yeah!');
+                const emailSubject = "Notification - Availability of slots to visit in MIGRIS";
                 const availableDayOfVisit = await (await $(`${locators.firstFreeDateButton}`)).getText();
                 const availableYearAndMonthOfVisit = await (await $(`${locators.yyyyMonthLabel}`)).getText();
-                const availableDateOfVisit = `Free date is ${availableYearAndMonthOfVisit} ${availableDayOfVisit} at ${CONFIGS.ADDRESS}. \nThe link to register visit: ${browser.options.baseUrl}`;
-                console.log(availableDateOfVisit);
+                const emailText = `Free date is ${availableYearAndMonthOfVisit} ${availableDayOfVisit} at ${CONFIGS.ADDRESS}. \nThe link to register visit: \n${browser.options.baseUrl}`;
+                console.log(emailText);
+                await notifyViaEmail(CONFIGS.EMAIL_OF_RECEIVER, emailSubject, emailText);
                 break;
             }
         }
