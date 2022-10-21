@@ -29,7 +29,7 @@ describe('Checking MIGRIS free slots for registration', () => {
                 const availableYearAndMonthOfVisit = await (await $(`${locators.yyyyMonthLabel}`)).getText();
                 const emailText = `Free date is ${availableYearAndMonthOfVisit} ${availableDayOfVisit} at ${CONFIGS.ADDRESS}. \nThe link to register visit: \n${browser.options.baseUrl}`;
                 console.log(emailText);
-                await notifyViaEmail(CONFIGS.EMAIL_OF_RECEIVER, emailSubject, emailText);
+                await notifyViaEmail(process.env.EMAIL_OF_RECEIVER, emailSubject, emailText);
                 break;
             }
         }
