@@ -5,6 +5,7 @@ const { setTimeout, datesAreBooked, notifyViaEmail } = require("../functions/fun
 describe('Checking MIGRIS free slots for registration', () => {
     it('Сheck that a free date for registration exists ', async () => {
         await browser.url('');
+        await $(locators.changeLanguageDropdown).waitForDisplayed({ timeout: 30000 });
         await $(locators.changeLanguageDropdown).click();
         await $(locators.selectLanguageButton(CONFIGS.LANGUAGE)).click();
         await $(locators.acceptButton).click();

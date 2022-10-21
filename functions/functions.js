@@ -1,5 +1,4 @@
 const { locators } = require("../locators/locators");
-const { CONFIGS } = require("../configs/configs");
 const nodemailer = require("../node_modules/nodemailer")
 
 async function datesAreBooked() {
@@ -35,6 +34,5 @@ async function notifyViaEmail(receiveTo, emailSubject, emailText) {
         }
     )
 }
-
 
 module.exports = { datesAreBooked, setTimeout, notifyViaEmail }
