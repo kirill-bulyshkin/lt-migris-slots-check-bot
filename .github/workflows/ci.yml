@@ -1,8 +1,6 @@
 name: MIGRIS slots-check Bot CI
 on:
 
-  schedule:
-    - cron: '30 * * * *'
   workflow_dispatch:
 
 jobs:
