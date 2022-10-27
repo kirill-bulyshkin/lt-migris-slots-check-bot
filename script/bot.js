@@ -17,9 +17,7 @@ describe('Checking MIGRIS free slots for registration', () => {
 
         await setTimeout();
 
-        for (let i = 1; i < CONFIGS.NUMBER_OF_MONTH_TO_CHECK; i++) {
-            $(locators.rightArrowButton).click();
-            await setTimeout();
+        for (let i = 1; i <= CONFIGS.NUMBER_OF_MONTH_TO_CHECK; i++) {
             if(await datesAreBooked()) {
                 console.log('Sorry, there are no available dates for registration');
             } else {
@@ -29,9 +27,11 @@ describe('Checking MIGRIS free slots for registration', () => {
                 const availableYearAndMonthOfVisit = await (await $(`${locators.yyyyMonthLabel}`)).getText();
                 const emailText = `Free date is ${availableYearAndMonthOfVisit} ${availableDayOfVisit} at ${CONFIGS.ADDRESS}. \nThe link to register visit: \n${browser.options.baseUrl}`;
                 console.log(emailText);
-                await notifyViaEmail(process.env.EMAIL_OF_RECEIVER, emailSubject, emailText);
+                await notifyViaEmail(CONFIGS.EMAIL_OF_RECEIVER, emailSubject, emailText);
                 break;
             }
+            $(locators.rightArrowButton).click();
+            await setTimeout();
         }
     });
 });

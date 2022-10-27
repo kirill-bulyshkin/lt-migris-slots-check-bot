@@ -23,12 +23,12 @@ async function notifyViaEmail(receiveTo, emailSubject, emailText) {
         port: 587,
         auth: {
         user: 'apikey',
-        pass: `${process.env.API_KEY}`
+        pass: `${CONFIGS.API_KEY}`
         }
     });
     await mailTransporter.sendMail(
         {
-            from: `${process.env.EMAIL_OF_SENDER}`,
+            from: `${CONFIGS.EMAIL_OF_SENDER}`,
             to: receiveTo,
             subject: emailSubject,
             text: emailText
