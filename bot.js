@@ -20,7 +20,7 @@ async function checkForFreeDates() {
             \nThe link to register visit: \n${RESERVE_VISIT_LINK}`;
         console.log(emailText);
 
-        await notifyViaEmail(CONFIGS.EMAIL_OF_RECEIVER, emailSubject, emailText);
+        await notifyViaEmail(process.env.EMAIL_OF_RECEIVER, emailSubject, emailText);
 
     } else {
         console.log(`Sorry, there are no available dates for registration in ${CONFIGS.DAYS_TO_CHECK} days. ${visitInDaysMessage}.`)
