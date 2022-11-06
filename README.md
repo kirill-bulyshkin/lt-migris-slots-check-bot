@@ -19,7 +19,7 @@ To getting email notifications have to setup **Free** [SendGrid](https://sendgri
 2. Create and verify SendGrid Sender: https://docs.sendgrid.com/ui/sending-email/sender-verification
 3. Create SendGrid API key: https://docs.sendgrid.com/ui/account-and-settings/api-keys#creating-an-api-key
 
-Check [Variables reference](https://github.com/kirill-bulyshkin/lt-migris-slots-check-bot/main/README.md#variables-reference)
+Check [Variables reference](#variables-reference) 
 or [config.js](https://github.com/kirill-bulyshkin/lt-migris-slots-check-bot/blob/main/configs/configs.js) to get more details.
 
 #### Example of received notification:
