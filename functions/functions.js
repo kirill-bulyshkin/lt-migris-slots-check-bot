@@ -1,19 +1,36 @@
-const { locators } = require("../locators/locators");
+const { sendGetRequest } = require("../utils/apiUtils");
+const { REQUESTS } = require("../requests/requests");
 const { CONFIGS } = require("../configs/configs");
-const nodemailer = require("../node_modules/nodemailer")
+const { getTimestamp } = require("../utils/dateUtils");
+const nodemailer = require("../node_modules/nodemailer");
 
-async function datesAreBooked() {
-    if (await $$(locators.freeDates).length === 0 && await $$(locators.nonFreeDates).length > 28) {
-        return true;
-    } else {
-        return false;
-    }
+
+async function getCodeOfVisitByVisitType() {
+    const response = await sendGetRequest(REQUESTS.VISIT_TYPES);
+    const codeOfVisit = (response.find(visit => visit.titleEn === `${CONFIGS.TYPE_OF_VISIT}`)).key;
+    return codeOfVisit;
 }
 
-async function setTimeout() {
-    return browser.executeAsync(function(done){
-        setTimeout(done, 2000);
-    });
+async function getCodeOfInstitution() {
+    const response = await sendGetRequest(REQUESTS.INSTITUTIONS(await getCodeOfVisitByVisitType()));
+    const codeOfInstitution = (response.find(institution => institution.titleEn === `${CONFIGS.ADDRESS}`)).key;
+    return codeOfInstitution;
+}
+
+async function getListOfFreeDates() {
+    const listOfFreeDates = await sendGetRequest(REQUESTS.DATES(await getCodeOfVisitByVisitType(), await getCodeOfInstitution(), getTimestamp()));
+    return listOfFreeDates;
+}
+
+async function getListOfFreeTimes(date) {
+    const listOfFreeTimes = await sendGetRequest(REQUESTS.TIMES(
+        await getCodeOfVisitByVisitType(),
+        await getCodeOfInstitution(),
+        date,
+        getTimestamp(),
+    ));
+    const listOfFreeTimesWithoutDates = listOfFreeTimes.map(time => { return '\n' + time.split('T')[1] });
+    return listOfFreeTimesWithoutDates;
 }
 
 async function notifyViaEmail(receiveTo, emailSubject, emailText) {
@@ -23,12 +40,12 @@ async function notifyViaEmail(receiveTo, emailSubject, emailText) {
         port: 587,
         auth: {
         user: 'apikey',
-        pass: `${process.env.API_KEY}`
+        pass: `${CONFIGS.API_KEY}`
         }
     });
     await mailTransporter.sendMail(
         {
-            from: `${process.env.EMAIL_OF_SENDER}`,
+            from: `${CONFIGS.EMAIL_OF_SENDER}`,
             to: receiveTo,
             subject: emailSubject,
             text: emailText
@@ -36,5 +53,4 @@ async function notifyViaEmail(receiveTo, emailSubject, emailText) {
     )
 }
 
-
-module.exports = { datesAreBooked, setTimeout, notifyViaEmail }
+module.exports = { getCodeOfVisitByVisitType, getCodeOfInstitution, getListOfFreeDates, getListOfFreeTimes, notifyViaEmail }
