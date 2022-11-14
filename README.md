@@ -1,5 +1,5 @@
 # lt-migris-slots-check-bot
-> Bot for checking the availability of slots to visit in [Lithuania MIGRIS](https://www.migracija.lt/). Notifications will be sent by email.
+> Bot for checking the availability of slots to visit the [Lithuanian MIGRIS](https://www.migracija.lt/). Notifications will be sent by email.
 > 
 > **For local usage.**
 
