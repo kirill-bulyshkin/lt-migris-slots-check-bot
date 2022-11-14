@@ -20,7 +20,7 @@ To getting email notifications have to setup **Free** [SendGrid](https://sendgri
 3. Create SendGrid API key: https://docs.sendgrid.com/ui/account-and-settings/api-keys#creating-an-api-key
 
 Check [Variables reference](#variables-reference) 
-or [config.js](https://github.com/kirill-bulyshkin/lt-migris-slots-check-bot/blob/main/configs/configs.js) to get more details.
+or [.env](https://github.com/kirill-bulyshkin/lt-migris-slots-check-bot/blob/main/.env) to get more details.
 
 #### Example of received notification:
 
@@ -48,7 +48,7 @@ Default values are provided as an example to help you figure out what should be 
 | EMAIL_OF_RECEIVER          | "name@mail.com"                               | Email address of receiver to get notifications                                    |
 | EMAIL_OF_SENDER            | "notifications@mail.com"                      | Email address of created and verified SendGrid Sender                             |
 | API_KEY                    | "{api_key}"                                   | Application Programming Interface key to authenticate access to SendGrid services |
-| SCHEDULE_OF_CHECK          | "*/20 * * * *"                                | Cron-expression to run bot by needed schedule (in the example - each 20 minutes   |
+| SCHEDULE_OF_CHECK          | "*/20 * * * *"                                | Cron-expression to run bot by needed schedule (in the example - each 20 minutes)   |
 
 
 ## See Also
