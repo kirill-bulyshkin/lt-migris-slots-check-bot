@@ -1,7 +1,7 @@
 {
     "name": "lt-migris-slots-check-bot",
     "version": "1.1.0",
-    "description": "Bot for checking the availability of slots to visit in Lithuania MIGRIS",
+    "description": "Bot for checking the availability of slots to visit the Lithuanian MIGRIS",
     "main": "bot.js",
     "scripts": {
         "bot": "node bot.js"
