@@ -1,4 +1,3 @@
-const CONFIGS = require("../configs/configs");
 const nodemailer = require("nodemailer");
 
 const mailTransporter = nodemailer.createTransport({
@@ -6,7 +5,7 @@ const mailTransporter = nodemailer.createTransport({
     port: 587,
     auth: {
         user: 'apikey',
-        pass: `${CONFIGS.API_KEY}`
+        pass: `${process.env.API_KEY}`
     }
 });
 

@@ -1,16 +1,15 @@
 const { sendGetRequest } = require("../utils/apiUtils");
 const { REQUESTS } = require("../requests/requests");
-const CONFIGS = require("../configs/configs");
 const { getTimestamp } = require("../utils/dateUtils");
 
 async function getCodeOfVisitByVisitType() {
     const response = await sendGetRequest(REQUESTS.VISIT_TYPES);
-    return response.find(visit => visit.titleEn === `${CONFIGS.TYPE_OF_VISIT}`).key;
+    return response.find(visit => visit.titleEn === `${process.env.TYPE_OF_VISIT}`).key;
 }
 
 async function getCodeOfInstitution() {
     const response = await sendGetRequest(REQUESTS.INSTITUTIONS(await getCodeOfVisitByVisitType()));
-    return response.find(institution => institution.titleEn === `${CONFIGS.ADDRESS}`).key;
+    return response.find(institution => institution.titleEn === `${process.env.ADDRESS}`).key;
 }
 
 async function getListOfFreeDates() {
