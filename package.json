@@ -2,9 +2,9 @@
     "name": "lt-migris-slots-check-bot",
     "version": "1.1.0",
     "description": "Bot for checking the availability of slots to visit in Lithuania MIGRIS",
-    "main": "index.js",
+    "main": "bot.js",
     "scripts": {
-        "bot": "node index.js"
+        "bot": "node bot.js"
     },
     "author": "Kirill Bulyshkin",
     "license": "MIT",
