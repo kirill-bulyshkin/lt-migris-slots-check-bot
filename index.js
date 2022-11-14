@@ -1,7 +1,8 @@
-const { CONFIGS } = require("./configs/configs");
+const CONFIGS = require("./configs/configs");
 const { RESERVE_VISIT_LINK } = require("./requests/requests");
-const { getListOfFreeDates, getListOfFreeTimes, notifyViaEmail } = require("./functions/functions");
+const { getListOfFreeDates, getListOfFreeTimes } = require("./core/migrisApiManager");
 const { getNearestFreeDateInUTC, dateDifferenceFromCurrentDateInDays, getNearestFreeDateStringForApiRequest } = require("./utils/dateUtils");
+const { mailTransporter } = require("./core/mailManager");
 const cronJob = require('cron').CronJob;
 
 const job = new cronJob(
@@ -12,7 +13,7 @@ const job = new cronJob(
         const dates = await getListOfFreeDates();
         const nearestFreeDateInUTC = getNearestFreeDateInUTC(dates);
         const daysTillVisit = dateDifferenceFromCurrentDateInDays(nearestFreeDateInUTC);
-        const visitInDaysMessage = `The nearest Free Date to visit in ${daysTillVisit} days`
+        const visitInDaysMessage = `The nearest Free Date to visit in ${daysTillVisit} days`;
 
         if (CONFIGS.DAYS_TO_CHECK >= daysTillVisit) {
             const nearestFreeDateForApiRequest = getNearestFreeDateStringForApiRequest(dates);
@@ -25,12 +26,19 @@ const job = new cronJob(
                 \nThe link to register visit: \n${RESERVE_VISIT_LINK}`;
             console.log(emailText);
 
-            await notifyViaEmail(CONFIGS.EMAIL_OF_RECEIVER, emailSubject, emailText);
+            await mailTransporter.sendMail(
+                {
+                    from: `${CONFIGS.EMAIL_OF_SENDER}`,
+                    to: `${CONFIGS.EMAIL_OF_RECEIVER}`,
+                    subject: emailSubject,
+                    text: emailText
+                }
+            )
 
         } else {
-            console.log(`Sorry, there are no available dates for registration in ${CONFIGS.DAYS_TO_CHECK} days. ${visitInDaysMessage}.`)
+            console.log(`Sorry, there are no available dates for registration in ${CONFIGS.DAYS_TO_CHECK} days. ${visitInDaysMessage}.`);
         }
     }
 );
 
-job.start()
+job.start();
